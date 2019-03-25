@@ -22,21 +22,19 @@ const fs = require('fs');
       if(err) {
           return console.log(err);
       }
-  
-      console.log("The file was saved!");
     }); 
-    console.log($('header.offer-item-header', html).length);
-    console.log($('header.offer-item-header', html).text());
-    for (let i = 0; i < $('header.offer-item-header', html).length; i++) {
+    console.log($('span.offer-item-title', html).length);
+    for (let i = 0; i < $('span.offer-item-title', html).length; i++) {
       flats.push(
         new Flat(
-          $('header.offer-item-header', html)[i], //name
-          $('p.text-nowrap.hidden-xs', html)[i], //localization
-          $('li.offer-item-price', html)[i] //price
+          $('span.offer-item-title', html).map(function() {return $(this).text();}).toArray()[i], //name
+          $('p.text-nowrap.hidden-xs', html).map(function() {return $(this).text().split(": ");}).toArray()[i], //localization
+          $('li.offer-item-price', html).map(function() {return $(this).text().trim();}).toArray()[i] //price
         ) 
       );
     }
-    //console.log(flats[1]);
+    
+    console.log(flats[1]);
     // return Promise.all(
     //   flats.map(function(url) {
     //     return parseFunction('https://en.wikipedia.org' + url);
