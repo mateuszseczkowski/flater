@@ -12,18 +12,19 @@ class Flat {
 const rp = require('request-promise');
 const $ = require('cheerio');
 const parseFunction = require('./parseFunction');
-const url = 'https://www.otodom.pl/sprzedaz/mieszkanie/lodz/?search%5Bdist%5D=0&search%5Bcity_id%5D=1004';
+const streamToFile = require('./streamToFile');
+const url = 'https://www.otodom.pl/sprzedaz/mieszkanie/lodz/?search%5Bdist%5D=0&search%5Bcity_id%5D=1004&nrAdsPerPage=72';
 const fs = require('fs');
 
   rp(url)
   .then(function(html) {
     //success!
     const flats = [];
-    fs.writeFile("pageBody.htm", html, function(err) {
-      if(err) {
-          return console.log(err);
-      }
-    }); 
+    // fs.writeFile("pageBody.htm", html, function(err) {
+    //   if(err) {
+    //       return console.log(err);
+    //   }
+    // });
     console.log("Number of objects: "+$('span.offer-item-title', html).length);
     for (let i = 0; i < $('span.offer-item-title', html).length; i++) {
       flats.push(
@@ -32,7 +33,7 @@ const fs = require('fs');
           $('p.text-nowrap.hidden-xs', html).map(function() {return $(this).text().split(": ");}).toArray()[i], //localization
           $('li.offer-item-price', html).map(function() {return $(this).text().trim().replace(/[^\d.,]/g, '');}).toArray()[i], //price (with float with . and ,)
           $('li.offer-item-price', html).map(function() {return $(this).text().trim().replace(/[^\D]/g, '').trim();}).toArray()[i] //currency
-        ) 
+        )
       );
     }
     var total = 0;
@@ -41,8 +42,11 @@ const fs = require('fs');
     }
     var avg = total / flats.length;
 
-    console.log(flats);
-    console.log("Average price: " + avg);
+    streamToFile.wstreamArray.write(JSON.stringify(flats));
+    streamToFile.wstreamArray.end();
+
+    streamToFile.wstreamAverage.write("Average price: " + avg);
+    streamToFile.wstreamAverage.end();
     // return Promise.all(
     //   flats.map(function(url) {
     //     return parseFunction('https://en.wikipedia.org' + url);
@@ -53,6 +57,5 @@ const fs = require('fs');
   //   console.log(presidents);
   // })
   .catch(function(err) {
-    //handle error
     console.log(err);
   });
