@@ -45,7 +45,7 @@ const fs = require('fs');
     streamToFile.wstreamArray.write(JSON.stringify(flats));
     streamToFile.wstreamArray.end();
 
-    streamToFile.wstreamAverage.write(averagePriceOfAllFlats);
+    streamToFile.wstreamAverage.write(averagePriceOfAllFlats.toString());
     streamToFile.wstreamAverage.end();
     // return Promise.all(
     //   flats.map(function(url) {
