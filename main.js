@@ -40,12 +40,12 @@ const fs = require('fs');
     for(var i = 0; i < flats.length; i++) {
         total += parseInt(flats[i].price);
     }
-    var avg = total / flats.length;
+    var averagePriceOfAllFlats = total / flats.length;
 
     streamToFile.wstreamArray.write(JSON.stringify(flats));
     streamToFile.wstreamArray.end();
 
-    streamToFile.wstreamAverage.write("Average price: " + avg);
+    streamToFile.wstreamAverage.write(averagePriceOfAllFlats);
     streamToFile.wstreamAverage.end();
     // return Promise.all(
     //   flats.map(function(url) {
