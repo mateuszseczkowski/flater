@@ -15,6 +15,8 @@ const parseFunction = require('./parseFunction');
 const streamToFile = require('./streamToFile');
 const url = 'https://www.otodom.pl/sprzedaz/mieszkanie/lodz/?search%5Bdist%5D=0&search%5Bcity_id%5D=1004&nrAdsPerPage=72';
 const fs = require('fs');
+var dateFormat = require('dateformat');
+var date = dateFormat(new Date(), "dd.mm.yyyy hh:MM");
 
   rp(url)
   .then(function(html) {
@@ -36,6 +38,15 @@ const fs = require('fs');
         )
       );
     }
+
+    for (var i = flats.length - 1; i >= 0; i--) {
+      if (parseInt(flats[i].price) < 60000) { //filter to low prices (prywatne kamienice)
+        flats.splice(i, 1);
+      }
+    }
+
+    console.log("Number of objects after filtering: " + flats.length);
+
     var total = 0;
     for(var i = 0; i < flats.length; i++) {
         total += parseInt(flats[i].price);
@@ -45,7 +56,7 @@ const fs = require('fs');
     streamToFile.wstreamArray.write(JSON.stringify(flats));
     streamToFile.wstreamArray.end();
 
-    streamToFile.wstreamAverage.write(averagePriceOfAllFlats.toString());
+    streamToFile.wstreamAverage.write(date + ";" + averagePriceOfAllFlats + "\n");
     streamToFile.wstreamAverage.end();
     // return Promise.all(
     //   flats.map(function(url) {
