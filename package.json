@@ -14,8 +14,8 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "puppeteer": "^1.13.0",
+    "puppeteer": "^16.2.0",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "request-promise": "^4.2.6"
   }
 }
