@@ -1,6 +1,7 @@
 {
   "name": "flater",
   "version": "2.0.0",
+  "type": "module",
   "description": "Gets data from pages with apartments and saves the data into the csv file",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "dateformat": "^5.0.3",
     "node-fetch": "^3.3.1"
   }
 }

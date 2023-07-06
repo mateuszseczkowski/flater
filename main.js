@@ -2,7 +2,7 @@ import $ from "cheerio";
 import dateFormat from "dateformat";
 import fetch from "node-fetch";
 
-import { wstreamArray, wstreamAverage } from "./streamToFile";
+import { wstreamArray, wstreamAverage } from "./streamToFile.js";
 
 let date = dateFormat(new Date(), "dd.mm.yyyy hh:MM");
 const url =
